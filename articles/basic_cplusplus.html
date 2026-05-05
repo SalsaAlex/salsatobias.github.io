@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>blog test</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+
+    <!--header-->
+
+    <footer style="
+    font-size:300%; 
+    font-family: 'Franklin Gothic Medium'; 
+    text-align: center;">
+        salsatobias's blog
+    </footer>
+
+    <div style="display: flex; padding: 10px;"></div>
+
+    <div style="display: flex; justify-content: center; align-items:center; gap: 100px;">
+        <a style="font-size:140%;" href="../index.html">front page</a>
+        <a style="font-size:140%;">placeholder1</a>
+        <a style="font-size:140%;">placeholder2</a>
+    </div>
+
+    <!--/header-->
+
+
+
+    <body>
+        <h1>04/05/2026: Basics about c++</h1>
+
+
+        <div>
+            <p style="font-size:140%; width: 70%; text-align: left;">
+                C++, who doesnt love it ! some people apparently.. and thats okay, 
+                programming is art and there's alot of approaches to it, just like 
+                how theres alot of approaches to music, to make music you can learn 
+                to play a guitar, or a piano, or drums.. and to make programs you can 
+                learn how to use python, c, c++, java, and so on.
+            </p>
+            <p style="font-size:140%; width: 70%; text-align: left;">
+                going into c++, we need to learn a few things:<br>
+                -types: variables in c/c++ always need to be of a certain type.<br>
+                before we go into types, we need to know about "signed" and "unsigned" types. 
+                a signed type means it can range from positive to negative values, an unsigned type means
+                it can only range from 0 to the biggest positive value. all variables are signed by default. 
+                it'll make more sense reading down below:<br>
+                the following are the built-in types for these languages:<br><br>
+                --bool: can be either a 0 or a 1, false or true. although this type only requires
+                one bit to be represented, the size of a bool is 1 byte, since a byte is the smallest
+                unit a computer can read in sequence.<br><br>
+                --char: short for character, occupies 1 byte. a signed char can go from -128 to 127, and a 
+                unsigned char can go from 0 to 255.<br><br>
+                --short: occupies 2 bytes. a signed short can go from -32768 to 32767, and a 
+                unsigned short can go from 0 to 65535.<br><br>
+                --int: occupies 4 bytes. a signed integer can go from -2147483648 to 2147483647, and a 
+                unsigned integer can go from 0 to 4294967295.<br><br>
+                --float: occupies 4 bytes. floats cannot be unsigned due to how the IEEE standard 754 is implemented.
+                floats have bigger min and max values than a integer. but, the bigger a float is, the more imprecise it is. 
+                this is why doubles exist.<br><br>
+                --double: occupies 8 bytes. it is basically a float with double the precision and double the size.<br><br>
+                the cstdint library provides a better way to deal with types, for example, if you want a integer with 
+                double the capacity, use int64_t.<br><br>
+                -pointers: a pointer is a variable that holds a memory address, put simply, 
+                it points to a position in memory. pointers are very risky, and you have to 
+                handle them very carefully, otherwise you risk causing a memory leak, 
+                writing to random parts of memory, and access violations.<br>
+                to make a pointer, simply declare a variable with an asterisk, like this:
+            </p>
+            <pre>
+                <p style="font-size:120%; width: 70%; text-align: left; font-family: Cambria; font-weight: bold;">
+                    int* pointer = nullptr;
+                </p>
+            </pre>
+            <p style="font-size:140%; width: 70%; text-align: left;">
+                now you have a pointer ! sort of. this pointer is null, which means it doesnt point to anything.
+            </p>
+            <p style="font-size:140%; width: 70%; text-align: left;">
+                "okay, what do i do with this thing?" lets start by defining a simple integer variable:
+            </p>
+            <pre>
+                <p style="font-size:120%; width: 70%; text-align: left; font-family: Cambria; font-weight: bold;">
+                    int var = 123;
+                </p>
+            </pre>
+            <p style="font-size:140%; width: 70%; text-align: left;">
+                right now, theres a point in memory where this variable is defined with the value 123. now how would i know where it is in memory ? well, all you gotta do is use one character:
+            </p>
+            <pre>
+                <p style="font-size:120%; width: 70%; text-align: left; font-family: Cambria; font-weight: bold;">
+                    int var = 123;
+                    int* pointer = &var;
+                </p>
+            </pre>
+            <p style="font-size:140%; width: 70%; text-align: left;">
+                CONGRATS !! you have a valid pointer now !.. how do i use it? lets start by assigning a value to it. normally we would just do "var = 456;", but thats boring. lets do it with the pointer ! how would i do that ? just take a look below and i'll explain:
+            </p>
+            <pre>
+                <p style="font-size:120%; width: 70%; text-align: left; font-family: Cambria; font-weight: bold;">
+                    int var = 123;
+                    int* pointer = &var;
+                    *pointer = 456;
+                </p>
+            </pre>
+            <p style="font-size:140%; width: 70%; text-align: left;">
+                in the last line, the asterisk simply means "access the memory this pointer is pointing to."
+                now, if you were to look at var, you'll see that the value of var is 456 ! you've sucessfuly managed 
+                to modify a variable indirectly, or more technically, you wrote something to a position in memory! 
+                you can also read from the memory a pointer is pointing to, like this:
+            </p>
+            <pre>
+                <p style="font-size:120%; width: 70%; text-align: left; font-family: Cambria; font-weight: bold;">
+                    int var = 123;
+                    int* pointer = &var;
+                    int var2 = *pointer; //var2 is 123
+                </p>
+            </pre>
+            <p style="font-size:140%; width: 70%; text-align: left;">
+                thats pretty neat. but one important thing about all of this is the type.<br>
+                if, for example, var is a integer, and pointer is a float, the code will not compile.
+            </p>
+            <pre>
+                <p style="font-size:120%; width: 70%; text-align: left; font-family: Cambria; font-weight: bold;">
+                    int var = 123;
+                    float* pointer = &var; //error: cannot convert from 'int *' to 'float *'
+                </p>
+            </pre>
+            <p style="font-size:140%; width: 70%; text-align: left;">
+                this is good, because an integer is not the same thing as a float, computers interpret
+                floats very uniquely and differently than integers. BUT, if you reaaally want to, you 
+                can do something called "cast", or casting. here: 
+            </p>
+            <pre>
+                <p style="font-size:120%; width: 70%; text-align: left; font-family: Cambria; font-weight: bold;">
+                    int var = 123;
+                    float* pointer = (float*)&var; //cast int* to a float*. this compiles!
+                    float val = *pointer;
+                </p>
+            </pre>
+            <p style="font-size:140%; width: 70%; text-align: left;">
+                this isnt inherently dangerous, because integers and floats are both the same size, 4 bytes.
+                the problem is now, instead of interpreting the raw bytes of var as a integer, the computer 
+                will now interpret it as a float, which is really bad, this will produce a garbage non-sensical value.<br><br>
+            </p>
+            <p style="font-size:140%; width: 70%; text-align: left;">
+                i think thats about it for this article. i still have yet to teach about functions, structs, classes, and all the other little tiny things of this language. as you can see im not very good at teaching, but what other way is there to become better at teaching than to teach ! practicing is always good
+            </p>
+
+
+			<p style="font-size:120%; width: 70%; text-align: left; font-family: Cambria; font-weight: bold;">insert code here</p>
+        </div>
+        <script src="" async defer></script>
+    </body>
+</html>
