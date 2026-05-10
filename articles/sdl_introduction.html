@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>salsatobias's blog</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+
+    <!--header-->
+
+    <footer style="
+    font-size:300%; 
+    font-family: 'Franklin Gothic Medium'; 
+    text-align: center;">
+        salsatobias's blog
+    </footer>
+
+    <div style="display: flex; padding: 10px;"></div>
+
+    <div style="display: flex; justify-content: center; align-items:center; gap: 100px;">
+        <a style="font-size:140%;" href="../index.html">front page</a>
+        <a style="font-size:140%;">placeholder1</a>
+        <a style="font-size:140%;">placeholder2</a>
+    </div>
+
+    <!--/header-->
+
+    <body>
+        <h1>10/05/2026: Introduction to SDL</h1>
+
+
+        <div>
+            <p style="font-size:140%; width: 70%; text-align: left;">
+                (this article will only reference the latest iteration of SDL, which is SDL3.)<br>
+                (this article also assumes the reader has basic c++ knowledge.)
+            </p>
+            <p style="font-size:140%; width: 70%; text-align: left;">
+                with my own words, SDL is a <b>cross platform interface for creating windows, 
+                receiving&handling user inputs</b> (mouse, keyboards, touchscreen), and 
+                <b>interacting with graphics apis</b> (basically providing a way for a 
+                graphic api to display image on the window). it supports <b>opengl, 
+                vulkan, directx, and metal.</b> even old/ancient versions of directx can be used, thought sdl does not officially support it.</b>
+            </p>
+            <p style="font-size:140%; width: 70%; text-align: left;">
+                SDL has been available ever since the days of half-life 1, 1998, 
+                and it continues to be used frequently in engines, such as goldsrc, 
+                source engine, GZDoom, unreal engine(ever since version 1), godot, 
+                and even cryengine ! it is written almost entirely in c. not only can
+                 it be used in c++, but thanks to the community, there are existing 
+                 extensions for other languages! some of which are: 
+            </p>
+            <p style="font-size:140%; width: 70%; text-align: left; font-weight:bold; padding-left: 50px;">
+                * C#(SDL3-CS);<br>
+                * Java(lwjgl3);<br>
+                * Python(PySDL3);<br>
+                * Rust;<br>
+                * Pascal;<br>
+                * and others (see wiki.libsdl.org/SDL3/LanguageBindings). 
+            </p>
+            <p style="font-size:140%; width: 70%; text-align: left;">
+                ; though in this article, i'll only cover usage of it with C++.
+            </p>
+            <p style="font-size:140%; width: 70%; text-align: left;"> 
+                jumping into how to use SDL, the first thing one should do
+                is <b>initialize the library.</b> that can be done with a
+                single function: <b>SDL_Init(x)</b>, with x being a bitflag
+                of one or more flags, the following being the options:
+            </p>
+            <p style="font-size:140%; width: 90%; text-align: left; font-weight:bold; padding-left: 50px;">
+                * SDL_INIT_AUDIO - initializes the SDL audio library, not necessary if you plan to use an external library like OpenAL or FMOD.<br><br>
+                * SDL_INIT_VIDEO - initializes the SDL video library, should always be used, unless you dont want to display anything to the monitor..?<br>
+                * SDL_INIT_JOYSTICK - initializes the library used for processing input of joystick devices.<br><br>
+                * SDL_INIT_HAPTIC - initializes the library used for processing input of haptic devices. (haptic devices are devices meant to output physical feedback to the user, like vibrations)<br><br>
+                * SDL_INIT_GAMEPAD - initializes the library used for processing input of gamepad devices. if used, automatically initializes the joystick library too (SDL_INIT_JOYSTICK).<br><br>
+                * SDL_INIT_EVENTS - initializes the library used for processing window events. almost all the other options automatically initalize this library, with the exception of gamepad and haptic library.<br><br>
+                * SDL_INIT_SENSOR - initializes the library used for processing sensors. (sensors such as gyros and accelerometers.)<br><br>
+                * SDL_INIT_CAMERA - initializes the library used for processing cameras. (webcams for example.)
+            </p>
+            <p style="font-size:140%; width: 70%; text-align: left;">
+                for this article/tutorial, we'll only initialize the video library.
+            </p>
+            <p style="font-size:140%; width: 70%; text-align: left;">
+                so, we've initialized the sdl library, how do we create a window? 
+                believe it or not, this can also be done with a single function: 
+                <b>SDL_CreateWindow(x)</b>, the following are the arguments of this function, in order:
+            </p>
+            <p style="font-size:140%; width: 90%; text-align: left; font-weight:bold; padding-left: 50px;">
+                * title: the name of the window.<br>
+                * w: width of the window, in pixels<br>
+                * h: height of the window, in pixels<br>
+                * flags: the flags of the window, the following being the main options:<br>
+            </p>
+            <p style="font-size:140%; width: 90%; text-align: left; font-weight:bold; padding-left: 100px;">
+                    * SDL_WINDOW_FULLSCREEN;<br>
+                    * SDL_WINDOW_BORDERLESS;<br>
+                    * SDL_WINDOW_RESIZEABLE;<br>
+                    * SDL_WINDOW_ALWAYS_ON_TOP;<br>
+                    * SDL_WINDOW_OPENGL;<br>
+                    * SDL_WINDOW_VULKAN;<br>
+                    * SDL_WINDOW_METAL;<br>
+                    * ..and more. see SDL_video.h.
+            </p>
+            <p style="font-size:140%; width: 90%; text-align: left;">
+                the options for flags are pretty self explanatory from the name, so i think no further explanation is necessary
+            </p>
+            <p style="font-size:140%; width: 90%; text-align: left;">
+                with this function, you can already make a window pop up on your screen ! 
+                pretty easy, but <b>how do we display anything on it ?</b> for that we'll need 
+                to <b>select our graphics api.</b> SDL already has a builtin way to talk to the gpu,
+                it is just a wrapper for existing graphics apis of course, but for simplicity,
+                we'll use our old and dear friend <b>OpenGL</b>.
+            </p>
+            <p style="font-size:140%; width: 90%; text-align: left;">
+                to initialize opengl for a SDL window, you first need to define attributes
+                of the GL context to create, which you can do with <b>SDL_GL_SetAttribute</b>. 
+                you can take a look at <b>SDL_video.h</b> for all the options, its redundant to explain 
+                all of them here. then you simply use <b>SDL_GL_CreateContext(x) to create a opengl
+                context</b>, with x being the handle to the SDL window you just made.
+            </p>
+            <p style="font-size:140%; width: 90%; text-align: left;">
+                after initializing the opengl context, all left to do is render and display the image !
+                the rendering part ill explain later, this isnt a article about opengl anyways. 
+                to <b>display the image</b>, you require just a single function as well ! which is 
+                <b>SDL_GL_SwapWindow(x)</b>, with x being the handle to the sdl window. why the name "swap"
+                though? because simply put, we are swapping the displayed image with another one,
+                think of it like a simple paper: in one side of the paper, you draw something and
+                then display it. then, while people observe what you've drawn, you draw on the back
+                of the paper and then display it, and so on so on.
+            </p>
+            <p style="font-size:140%; width: 90%; text-align: left;">
+                to clean everthing up, aka shutdown, you need to first destroy the opengl context
+                with <b>SDL_GL_DestroyContext(x)</b>, with x being the handle to the context you received
+                from SDL_GL_CreateContext, and afterwards destroy the window with <b>SDL_DestroyWindow(x)</b>,
+                with x being the handle to the SDL window.
+            </p>
+            <p style="font-size:140%; width: 90%; text-align: left;">
+                and thats it, those are the basics for using the sdl library. the library is quite easy to
+                learn and use, so i suggest you experiment and learn with it.
+            </p>
+        </div>
+        <script src="" async defer></script>
+    </body>
+</html>
