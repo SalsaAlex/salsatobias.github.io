@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>blog test</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+
+    <!--header-->
+
+    <footer style="
+    font-size:300%; 
+    font-family: 'Franklin Gothic Medium'; 
+    text-align: center;">
+        salsatobias's blog
+    </footer>
+
+    <div style="display: flex; padding: 10px;"></div>
+
+    <div style="display: flex; justify-content: center; align-items:center; gap: 100px;">
+        <a style="font-size:140%;" href="../index.html">front page</a>
+        <a style="font-size:140%;">placeholder1</a>
+        <a style="font-size:140%;">placeholder2</a>
+    </div>
+
+    <!--/header-->
+
+    <body>
+        <h1>14/05/2026: Infinite perspective & Reverse-Z</h1>
+
+
+        <div>
+            <p style="font-size:140%; width: 70%; text-align: left;">
+                If youve ever used any renderer, or at the very least played any games, you most likely are familiar with z-fighting, most commonly at long distances:
+            </p>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/58/Z-fighting.png" width="500">    
+            <p style="font-size:140%; width: 70%; text-align: left;">
+                The reason this happens is because of floating points, they can only have so much precision, and
+                because of how they work: the closer a floating point number is to 0, the more precise it is. Since 
+                0 and 1 represent near and far, respectively, you can see where the problem is.
+            </p>
+            <p style="font-size:140%; width: 70%; text-align: left;">
+                Luckily, there is an old-school projection trick that saves us from this problem, called <b>reverse-z</b>.
+                what this trick does is basically make 0 represent far pixels, and 1 represent near pixels. this gives 
+                far objects plenty of room for depth precision, while kind of sacrificing near depth precision.
+                The main steps we need to take is:
+            </p>
+
+            <p style="font-size:140%; width: 70%; text-align: left; font-weight:bold; padding-left: 50px;">
+                * Make use of a floating point depth buffer;<br>
+                * Set depth testing to greater;<br>
+                * If using OpenGL, switch to 0-1 depth range with glClipControl. Sadly, this function
+                    is only core part of OpenGL in version >=4.5, luckily the extension (GL_ARB_clip_control)
+                    covers around 72.64% of all GPUs in case you wish to use an older version of OpenGL;<br>
+                * Always clear depth buffer to a value of 0 instead of 1;
+            </p>
+
+            <p style="font-size:140%; width: 70%; text-align: left;">
+                After these steps, simply take your desired projection matrix, and swap the near and far values.
+                If you have shaders that read/use depth values, you'll have to adjust them accordingly.<br>
+                This method is not limited to the main camera, you can use it in shadowmaps for example !
+                it wont fix shadow acne though.
+            </p>
+            <p style="font-size:140%; width: 70%; text-align: left;">
+                Now, what is <b>infinite perspective</b>? the name is already pretty self explanatory, 
+                its basically a perspective projection with an infinite far plane. The math is rather simple for this:<br>
+                suppose you have the following projection matrix:<br>
+            </p>
+
+            <pre>
+-------------------------------------------------------------------------------------
+				<p style="font-size:120%; width: 70%; text-align: left; font-family: Cambria; font-weight: bold;">
+                (sorry if this is hard to read)
+
+                [ focallength / aspect,     0,  			    0,  					            0 	],
+                [ 0,			            focallength,		0,					                0 	],
+                [ 0,			            0			        zfar / (znear - zfar),			    -1 	],
+                [ 0,			            0,			        -(zfar * znear) / (zfar - znear),	0	]
+				</p>
+-------------------------------------------------------------------------------------
+			</pre>
+
+            <p style="font-size:140%; width: 70%; text-align: left;">
+                And, suppose zfar's limit goes to infinity (lim zfar --> ∞), then we can solve:<br>
+                <b>∞ / (znear - ∞);</b><br>
+                <b>1 / ((znear / ∞) - 1);</b> (we factor out zfar by dividing all znears with it)<br>
+                <b>1 / (0 - 1);</b> (every real, constant number that is divided by a number of infinite limit, turns into 0)<br>
+                <b>1 / -1;</b><br>
+                <b>-1</b><br>
+                and for the other one:<br>
+                <b>-(∞ * znear) / (∞ - znear)</b><br>
+                <b>-znear / (1 - (znear/∞))</b><br>
+                <b>-znear / (1 - 0)</b><br>
+                <b>-znear</b><br>
+                thus, the infinte projection matrix becomes:
+            </p>
+
+            <pre>
+-------------------------------------------------------------------------------------
+				<p style="font-size:120%; width: 70%; text-align: left; font-family: Cambria; font-weight: bold;">
+                [ focallength / aspect,     0,  			    0,  					            0 	],
+                [ 0,			            focallength,		0,					                0 	],
+                [ 0,			            0			        -1,			                        -1 	],
+                [ 0,			            0,			        -znear,	                            0	]
+				</p>
+-------------------------------------------------------------------------------------
+			</pre>
+
+            <p style="font-size:140%; width: 70%; text-align: left;">
+                To use reverse-z and infinite perspective together, simply apply the infinite perspective math
+                after reverse-z(aka swapping near and far planes.)
+            </p>
+            <p style="font-size:140%; width: 70%; text-align: left;">
+                I'll be linking some articles that discuss these tricks more in depth (ha, get it, depth):
+            </p>
+            <p style="font-size:140%; width: 70%; text-align: left;">
+                <a href="https://tomhultonharrop.com/posts/reverse-z/"> >Tom Hulton: Reverse Z (and why it's so awesome)< </a><br>
+                <a href="https://developer.nvidia.com/content/depth-precision-visualized"> >NVIDIA : Depth Precision Visualized< </a><br>
+                <a href="https://www.humus.name/Articles/Persson_CreatingVastGameWorlds.pdf"> >SIGGRAPH 2012 for Just Cause 2< </a><br>
+                <a href="https://www.geometry.caltech.edu/pubs/UD12.pdf"> >Research papers : Tightening the Precision of Perspective Rendering< </a><br>
+                <a href="https://www.terathon.com/gdc07_lengyel.pdf"> >Eric Lengyel at GDC 2007: Projection Matrix Tricks< </a><br>
+                <a href="https://outerra.blogspot.com/2012/11/maximizing-depth-buffer-range-and.html"> >Maximizing Depth Buffer Range and Precision< </a><br>
+            </p>
+
+
+        </div>
+        <script src="" async defer></script>
+    </body>
+</html>
