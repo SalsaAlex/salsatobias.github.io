@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>blog test</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+
+    <!--header-->
+
+    <footer style="
+    font-size:300%; 
+    font-family: 'Franklin Gothic Medium'; 
+    text-align: center;">
+        salsatobias's blog
+    </footer>
+
+    <div style="display: flex; padding: 10px;"></div>
+
+    <div style="display: flex; justify-content: center; align-items:center; gap: 100px;">
+        <a style="font-size:140%;" href="../index.html">front page</a>
+        <a style="font-size:140%;">placeholder1</a>
+        <a style="font-size:140%;">placeholder2</a>
+    </div>
+
+    <!--/header-->
+
+    <body>
+        <h1>16/05/2026: Some algebra studying</h1>
+
+
+        <div>
+            <p style="font-size:140%; width: 70%; text-align: left;">
+                this is my poor attempt at studying algebra, because around 70% of video game development involves math<br>
+                this is moreso a self note than an article/blog.<br><br>
+                obs1: when an operator has a number on top and in the bottom, those are called superscript and subscript, respectively.
+            </p>
+            <p style="font-size:140%; width: 70%; text-align: left; padding-left: 50px;">
+                * μ (pronounced mu) = the mean = the center, average value.;<br><br>
+
+                * σ = sigma = lowercase sigma = standard deviation, how spread out the values are.<br>
+                -variance = σ²;<br>
+                -standard deviation = sqrt(variance) = σ;<br><br>
+
+                * Σ = sigma = uppercase sigma = summation operator.<br>
+                suppose the superscript is x, and the subscript is y, and the calculation in front of
+                the operator is a function named f that receives y, this translates to:<br>
+                -for (, y <= x, y++)<br>
+		        --result += f(y)<br><br>
+
+                * ∏ = pi = uppercase pi = dot operator. same thing as summation operator, except you multiply.<br>
+                suppose the superscript is x, and the subscript is y, and the calculation in front of the operator 
+                is a function named f that receives y, this translates to:<br>
+	            -for (, y <= x, y++)<br>
+		        --result *= f(y)<br><br>
+
+                * |x| = absolute value.<br>
+                if x is a real number, this equates to abs(x). if x is a set, the result represents
+                the number of elements in the set. if x is 2 points in a 3d space, the result is the
+                length/distance from point 1 to point 2.<br><br>
+
+                * ∫ = integral. if it is accompanied with super and sub scripts, it is a definite 
+                integral, if it comes with no scripts, it is indefinite. the integral is always 
+                accompanied by ( (expression) d(variable) ).<br>
+                with 0 and 3 being subscript and superscript, respectively, and x being the changing
+                variable, this equals to ∫³f(x) dx (imagine 0 in the bottom), which translates to:<br>
+                -for(float x = 0; x < 3; x += dx)<br>
+    		    --result += f(x) * dx;<br>
+                continuing with integral, with 0 and 3 being subscript and superscript, respectively, 
+                and with x, y and z being the changing variables, this equals to ∫³∫³∫³f(x, y, z) dx dy dz, 
+                which translates to:<br>
+	            -for (float x = 0; x < 3; x+= dx)<br>
+                -{<br>
+		        --for (float y = 0; y < 3; y += dy)<br>
+		        --{<br>
+                ---for (float z = 0; y < 3; z += dz)<br>
+                ---{<br>
+			    ----float xm = x + dx/2;<br>
+			    ----float ym = y + dy/2;<br>
+                ----float zm = z + dz/2;<br>
+			    ----result += f(xm, ym, zm) * dx * dy * dz;<br>
+                ---}<br>
+		        --}<br>
+                -}<br>
+                <br>
+                formulas:<br>
+                *markov inequality:<br>
+                P(X >= a) <= E(X)/a<br>
+                reads as: the probability of X being 
+                higher than a is less or equal to the expected value of X divided by a.<br><br>
+
+                chebyshev's inequality:<br>
+                P(|X - μ| >= kσ) <= 1/k²<br>
+                reads as: the probability of abs(X-μ) being higher than k*σ is less or
+                equal to 1 divided by k².<br>
+                to extract a upper bound formula of chebyshev's inequality, we do:<br>
+                P((X-μ)² >= k²σ²) <= 1/k² - square everything inside the probability box, 
+                such way that X-μ is not negative<br>
+                P((X-μ)² >= k²σ²) <= E[(X-μ)²]/k²σ² - switch over to markov's inequality<br>
+                E[(X-μ)²]/k²σ² = 1/k²; E[(X-μ)²] = σ²; - since we applied markov's inequality, 
+                we can see 1/k² is technically E[(X-μ)²]/k²σ², thus E[(X-μ)²] is technically σ².<br>
+                σ²/k²σ² = 1/k² - and now we have the upper bound formula ! this is proven in 
+                <a href="https://en.wikipedia.org/wiki/Chebyshev's_inequality#Proof">this wikipedia page.</a><br>
+            </p>
+
+
+        </div>
+        <script src="" async defer></script>
+    </body>
+</html>
